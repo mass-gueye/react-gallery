@@ -1,0 +1,14 @@
+.footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height:15vh;
+    background-color: #0E1111;
+    color: #fff;
+    font-family: 'Akaya Telivigala', cursive;
+}
+a {
+    text-decoration: none;
+    color: #fff;
+}

@@ -1,0 +1,17 @@
+.container {
+    display:flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-left: 5rem;
+}
+
+img {
+    margin: 0.5rem;
+    width: 22rem;
+    height: 18rem;
+    transition: all 0.5s;
+}
+
+img:hover {
+    transform: scale(1.1);
+}
