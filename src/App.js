@@ -1,37 +1,31 @@
-import './App.css';
-import Container from './component/container/container.component';
-import React, { Component } from 'react';
-import Footer from './component/footer/footer.component';
+import "./App.css";
+import Container from "./component/container/container.component";
+import React, { Component } from "react";
+import Footer from "./component/footer/footer.component";
+import Header from "./component/Header";
+import { ref, uploadBytes, listAll, getDownloadURL } from "firebase/storage";
+import { storage } from "./firebase.config";
 
-class App extends Component {
+export default function App() {
+  const imageListRef = ref(storage, "images/");
+  const [imageList, setImageList] = React.useState([]);
 
-  constructor() {
-    super();
-    this.state = {
-      data: []
-    }
+  async function getImageUrl() {
+    const response = await listAll(imageListRef);
+    response.items.map(async (item) => {
+      const url = await getDownloadURL(item);
+      console.log(url);
+      return setImageList((prev) => [...prev, url]);
+    });
   }
-
-  componentDidMount() {
-    fetch(`https://api.unsplash.com/photos/random/?client_id=${process.env.REACT_APP_API_ACCESS_KEY}&count=30`)
-      .then(response => response.json())
-      .then(data => this.setState({
-        data: data
-      }))
-
-  }
-
-  render() {
-    const { data } = this.state
-    return (
-      <div>
-      <h1>Gallery</h1>
-        <Container data={data}/>
-        <Footer />
-      </div>
-    )
-  }
+  React.useEffect(() => {
+    getImageUrl();
+  }, []);
+  return (
+    <div>
+      <Header />
+      <Container data={imageList} />
+      <Footer />
+    </div>
+  );
 }
-
-
-export default App;
